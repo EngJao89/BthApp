@@ -39,7 +39,11 @@ export default function Index() {
             />
           </View>
 
-          <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+          <TouchableOpacity 
+            activeOpacity={0.5} 
+            onPress={() => router.push('/(dashboard)/userlist/page')} 
+            style={styles.button}
+          >
             <Text style={styles.buttonText}>Acessar</Text>
           </TouchableOpacity>
 
