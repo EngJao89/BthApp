@@ -44,6 +44,16 @@ export default function SignInOng() {
               Volte para acesso do usuário
             </Text>
           </Pressable>
+
+          <Pressable 
+            onPress={() => router.push('/(auth)/registerong/page')} 
+            style={styles.link}
+          >
+            <Ionicons name="arrow-forward-sharp" size={16} color="red" />
+            <Text style={styles.textGhost}>
+              Não Tenho Cadastro
+            </Text>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>

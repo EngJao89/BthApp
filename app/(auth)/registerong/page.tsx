@@ -14,7 +14,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "@/constants/Colors";
 import logo from '../../../assets/images/logo.png';
 
-export default function RegisterUser() {
+export default function RegisterOng() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -26,7 +26,7 @@ export default function RegisterUser() {
           </Pressable>
         </View>
 
-        <Text style={styles.title}>Cadastro de Usuário</Text>
+        <Text style={styles.title}>Cadastro de Ong</Text>
         <Text style={styles.subtitle}>
           Cadastre-se e salve o dia.
         </Text>
@@ -54,6 +54,20 @@ export default function RegisterUser() {
             <Text style={styles.label}>Telefone</Text>
 
             <TextInput placeholder='Digite seu telefone...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+          </View>
+
+          <View style={styles.location}>
+            <View>
+              <Text style={styles.label}>Cidade</Text>
+
+              <TextInput placeholder='Digite sua cidade...' placeholderTextColor={Colors.zinc_600}  style={styles.city} />
+            </View>
+
+            <View>
+              <Text style={styles.ufTitle}>UF</Text>
+
+              <TextInput placeholder='UF' placeholderTextColor={Colors.zinc_600}  style={styles.uf} />
+            </View>
           </View>
 
           <TouchableOpacity activeOpacity={0.5} style={styles.button}>
@@ -117,6 +131,37 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.zinc_200,
     borderRadius: 8,
     marginBottom: 16,
+    paddingHorizontal: 8,
+    paddingTop: 14,
+    paddingBottom: 14,
+  },
+  location: {
+    flexDirection: "row",
+  },
+  city: {
+    width: 316,
+    borderWidth: 1,
+    borderColor: Colors.zinc_500,
+    backgroundColor: Colors.zinc_200,
+    borderRadius: 8,
+    marginBottom: 16,
+    paddingHorizontal: 8,
+    paddingTop: 14,
+    paddingBottom: 14,
+  },
+  ufTitle: {
+    color: Colors.zinc_950,
+    marginLeft: 8,
+    marginBottom: 4,
+  },
+  uf: {
+    width: 50,
+    borderWidth: 1,
+    borderColor: Colors.zinc_500,
+    backgroundColor: Colors.zinc_200,
+    borderRadius: 8,
+    marginBottom: 16,
+    marginLeft: 8,
     paddingHorizontal: 8,
     paddingTop: 14,
     paddingBottom: 14,
