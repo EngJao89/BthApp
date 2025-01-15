@@ -1,11 +1,11 @@
 import { Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { Link, router } from "expo-router";
-import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { Colors } from "@/constants/Colors";
-import logo from '../assets/images/logo.png';
+import logo from '../../../assets/images/logo.png';
+import { router } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-export default function Index() {
+export default function SignInOng() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -13,7 +13,7 @@ export default function Index() {
           <Image source={logo} style={styles.logo}/>
         </View>
 
-        <Text style={styles.title}>Acesso Usuário</Text>
+        <Text style={styles.title}>Acesso ONG</Text>
         <Text style={styles.subtitle}>
           Entre e salve o dia.
         </Text>
@@ -27,33 +27,27 @@ export default function Index() {
 
           <View>
             <Text style={styles.label}>Password</Text>
-
-            <TextInput placeholder='Digite sua senha...' placeholderTextColor={Colors.zinc_600} style={styles.input} />
+          
+            <TextInput placeholder='Digite sua senha...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
           </View>
 
           <TouchableOpacity activeOpacity={0.5} style={styles.button}>
-            <Text style={styles.buttonText}>Acessar</Text>
+            <Text style={styles.buttonText}>Acesso</Text>
           </TouchableOpacity>
 
           <Pressable 
-            onPress={() => router.push('/(auth)/registeruser/page')} 
+            onPress={() => router.push('/')} 
             style={styles.link}
           >
             <Ionicons name="arrow-forward-sharp" size={16} color="red" />
-            <Text style={styles.textGhost}>Não Tenho Cadastro</Text>
-          </Pressable>
-
-          <Pressable 
-            onPress={() => router.push('/(auth)/signinnong/page')} 
-            style={styles.link}
-          >
-            <Ionicons name="arrow-forward-sharp" size={16} color="red" />
-            <Text style={styles.textGhost}>É ONG? Entre por aqui.</Text>
+            <Text style={styles.textGhost}>
+              Volte para acesso do usuário
+            </Text>
           </Pressable>
         </View>
       </View>
     </SafeAreaView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -86,7 +80,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    paddingTop: 36,
+    paddingTop: 24,
     paddingLeft: 14,
     paddingRight: 14,
   },
@@ -128,4 +122,4 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   }
-});
+})

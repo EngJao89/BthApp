@@ -8,6 +8,8 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{headerShown: false}}/>
 
         <Stack.Screen name="(auth)/registeruser/page" options={{headerShown: false}}/>
+
+        <Stack.Screen name="(auth)/signinnong/page" options={{headerShown: false}}/>
       </Stack>
 
       <StatusBar style="dark" />
