@@ -22,13 +22,21 @@ export default function Index() {
           <View>
             <Text style={styles.label}>Email</Text>
 
-            <TextInput placeholder='Digite seu email...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu email...' 
+              placeholderTextColor={Colors.zinc_600}  
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Password</Text>
 
-            <TextInput placeholder='Digite sua senha...' placeholderTextColor={Colors.zinc_600} style={styles.input} />
+            <TextInput 
+              placeholder='Digite sua senha...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <TouchableOpacity activeOpacity={0.5} style={styles.button}>
@@ -48,7 +56,9 @@ export default function Index() {
             style={styles.link}
           >
             <Ionicons name="arrow-forward-sharp" size={16} color="red" />
-            <Text style={styles.textGhost}>É ONG? Entre por aqui.</Text>
+            <Text style={styles.textGhost}>
+              É ONG? Entre por aqui.
+            </Text>
           </Pressable>
         </View>
       </View>

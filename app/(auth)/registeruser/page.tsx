@@ -35,25 +35,41 @@ export default function RegisterUser() {
           <View>
             <Text style={styles.label}>Nome</Text>
 
-            <TextInput placeholder='Digite seu nome...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu nome...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Email</Text>
 
-            <TextInput placeholder='Digite seu email...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu email...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Password</Text>
 
-            <TextInput placeholder='Digite sua senha...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite sua senha...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Telefone</Text>
 
-            <TextInput placeholder='Digite seu telefone...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu telefone...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <TouchableOpacity activeOpacity={0.5} style={styles.button}>

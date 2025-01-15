@@ -35,38 +35,62 @@ export default function RegisterOng() {
           <View>
             <Text style={styles.label}>Nome</Text>
 
-            <TextInput placeholder='Digite seu nome...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu nome...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Email</Text>
 
-            <TextInput placeholder='Digite seu email...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu email...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Password</Text>
 
-            <TextInput placeholder='Digite sua senha...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite sua senha...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Telefone</Text>
 
-            <TextInput placeholder='Digite seu telefone...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu telefone...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View style={styles.location}>
             <View>
               <Text style={styles.label}>Cidade</Text>
 
-              <TextInput placeholder='Digite sua cidade...' placeholderTextColor={Colors.zinc_600}  style={styles.city} />
+              <TextInput 
+                placeholder='Digite sua cidade...' 
+                placeholderTextColor={Colors.zinc_600} 
+                style={styles.city} 
+              />
             </View>
 
             <View>
               <Text style={styles.ufTitle}>UF</Text>
 
-              <TextInput placeholder='UF' placeholderTextColor={Colors.zinc_600}  style={styles.uf} />
+              <TextInput 
+                placeholder='UF' 
+                placeholderTextColor={Colors.zinc_600} 
+                style={styles.uf} 
+              />
             </View>
           </View>
 

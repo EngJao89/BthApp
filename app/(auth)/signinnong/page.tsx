@@ -22,28 +22,26 @@ export default function SignInOng() {
           <View>
             <Text style={styles.label}>Email</Text>
 
-            <TextInput placeholder='Digite seu email...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite seu email...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <View>
             <Text style={styles.label}>Password</Text>
           
-            <TextInput placeholder='Digite sua senha...' placeholderTextColor={Colors.zinc_600}  style={styles.input} />
+            <TextInput 
+              placeholder='Digite sua senha...' 
+              placeholderTextColor={Colors.zinc_600} 
+              style={styles.input} 
+            />
           </View>
 
           <TouchableOpacity activeOpacity={0.5} style={styles.button}>
             <Text style={styles.buttonText}>Acesso</Text>
           </TouchableOpacity>
-
-          <Pressable 
-            onPress={() => router.push('/')} 
-            style={styles.link}
-          >
-            <Ionicons name="arrow-forward-sharp" size={16} color="red" />
-            <Text style={styles.textGhost}>
-              Volte para acesso do usuário
-            </Text>
-          </Pressable>
 
           <Pressable 
             onPress={() => router.push('/(auth)/registerong/page')} 
@@ -52,6 +50,16 @@ export default function SignInOng() {
             <Ionicons name="arrow-forward-sharp" size={16} color="red" />
             <Text style={styles.textGhost}>
               Não Tenho Cadastro
+            </Text>
+          </Pressable>
+
+          <Pressable 
+            onPress={() => router.push('/')} 
+            style={styles.link}
+          >
+            <Ionicons name="arrow-forward-sharp" size={16} color="red" />
+            <Text style={styles.textGhost}>
+              Volte para acesso do usuário
             </Text>
           </Pressable>
         </View>
