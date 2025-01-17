@@ -11,8 +11,8 @@ import {
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
-import { Colors } from "@/constants/Colors";
 import logo from '../../../assets/images/logo.png';
+import { Colors } from "@/constants/Colors";
 
 export default function RegisterUser() {
   return (
