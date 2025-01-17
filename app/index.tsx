@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    color: Colors.zinc_400,
+    color: Colors.zinc_500,
     marginTop: 10,
     marginLeft: 16,
     marginBottom: 16,
