@@ -10,7 +10,7 @@ export const Colors = {
   zinc_700: '#3f3f46',
   zinc_600: '#52525b',
   zinc_500: '#71717a',
-  zinc_400: '#a8a29e',
+  zinc_400: '#a1a1aa',
   zinc_300: '#d6d3d1',
   zinc_200: '#e7e5e4',
   zinc_100: '#f5f5f4',
