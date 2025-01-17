@@ -28,7 +28,7 @@ export function Card() {
 
       <View>
         <Pressable 
-          onPress={() => router.push('/')} 
+          onPress={() => router.push('/(dashboard)/details/page')} 
           style={styles.link}
         >
           <Text style={styles.textGhost}>
