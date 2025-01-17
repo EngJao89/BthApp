@@ -57,7 +57,7 @@ export default function Details() {
               <Text style={styles.buttonText}>Email</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+            <TouchableOpacity activeOpacity={0.5} style={styles.buttonRight}>
               <Text style={styles.buttonText}>Whatsapp</Text>
             </TouchableOpacity>
           </View>
@@ -132,7 +132,18 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.red_600,
     width: 164,
     marginTop: 16,
-    marginLeft: 4,
+    marginRight: 4,
+    marginBottom: 8,
+    paddingTop: 14,
+    paddingBottom: 14,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonRight: {
+    backgroundColor: Colors.red_600,
+    width: 164,
+    marginTop: 16,
+    marginLeft: 6,
     marginBottom: 8,
     paddingTop: 14,
     paddingBottom: 14,
