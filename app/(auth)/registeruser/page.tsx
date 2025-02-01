@@ -1,4 +1,5 @@
 import { 
+  Alert,
   Image, 
   Pressable, 
   SafeAreaView, 
@@ -10,69 +11,123 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 import logo from '../../../assets/images/logo.png';
 import { Colors } from "@/constants/Colors";
 
+const registerSchema = z.object({
+  name: z.string().min(3, "Nome de usuário é obrigatório"),
+  email: z.string().email("E-mail é obrigatório"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  phone: z.string().min(13, "O telefone deve ter pelo menos 13 caracteres"),
+});
+
+export type RegisterSchema = z.infer<typeof registerSchema>;
+
 export default function RegisterUser() {
+  const { control, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const onSubmit = async (data: RegisterSchema) => {
+    console.log("Dados enviados:", data);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Image source={logo} style={styles.logo}/>
+          <Image source={logo} style={styles.logo} />
 
           <Pressable style={styles.backButton} onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={24} color={Colors.red_600}/>
+            <Ionicons name="arrow-back" size={24} color={Colors.red_600} />
           </Pressable>
         </View>
 
         <Text style={styles.title}>Cadastro de Usuário</Text>
-        <Text style={styles.subtitle}>
-          Cadastre-se e salve o dia.
-        </Text>
+        <Text style={styles.subtitle}>Cadastre-se e salve o dia.</Text>
 
         <View style={styles.form}>
+
           <View>
             <Text style={styles.label}>Nome</Text>
-
-            <TextInput 
-              placeholder='Digite seu nome...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  placeholder="Digite seu nome..."
+                  placeholderTextColor={Colors.zinc_600}
+                  style={styles.input}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.name?.message && <Text style={styles.error}>{String(errors.name.message)}</Text>}
           </View>
 
           <View>
             <Text style={styles.label}>Email</Text>
-
-            <TextInput 
-              placeholder='Digite seu email...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Controller
+              control={control}
+              name="email"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  placeholder="Digite seu email..."
+                  placeholderTextColor={Colors.zinc_600}
+                  style={styles.input}
+                  keyboardType="email-address"
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.email?.message && <Text style={styles.error}>{String(errors.email.message)}</Text>}
           </View>
 
           <View>
-            <Text style={styles.label}>Password</Text>
-
-            <TextInput 
-              placeholder='Digite sua senha...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Text style={styles.label}>Senha</Text>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  placeholder="Digite sua senha..."
+                  placeholderTextColor={Colors.zinc_600}
+                  style={styles.input}
+                  secureTextEntry
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.password?.message && <Text style={styles.error}>{String(errors.password.message)}</Text>}
           </View>
 
           <View>
             <Text style={styles.label}>Telefone</Text>
-
-            <TextInput 
-              placeholder='Digite seu telefone...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Controller
+              control={control}
+              name="phone"
+              render={({ field: { onChange, value } }) => (
+                <TextInput
+                  placeholder="Digite seu telefone..."
+                  placeholderTextColor={Colors.zinc_600}
+                  style={styles.input}
+                  keyboardType="phone-pad"
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.phone?.message && <Text style={styles.error}>{String(errors.phone.message)}</Text>}
           </View>
 
-          <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+          <TouchableOpacity activeOpacity={0.5} style={styles.button} onPress={handleSubmit(onSubmit)}>
             <Text style={styles.buttonText}>Cadastro</Text>
           </TouchableOpacity>
         </View>
@@ -150,4 +205,9 @@ const styles = StyleSheet.create({
     color: Colors.zinc_100,
     fontWeight: "bold",
   },
-})
+  error: { 
+    color: Colors.red_600, 
+    fontSize: 14, 
+    marginTop: 5 
+  },
+});
