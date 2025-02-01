@@ -1,4 +1,5 @@
 import { 
+  Alert,
   Image, 
   Pressable, 
   SafeAreaView, 
@@ -27,14 +28,13 @@ const registerSchema = z.object({
 export type RegisterSchema = z.infer<typeof registerSchema>;
 
 export default function RegisterUser() {
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
     resolver: zodResolver(registerSchema),
   });
 
   const onSubmit = async (data: RegisterSchema) => {
     console.log("Dados enviados:", data);
   };
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
@@ -210,4 +210,4 @@ const styles = StyleSheet.create({
     fontSize: 14, 
     marginTop: 5 
   },
-})
+});
