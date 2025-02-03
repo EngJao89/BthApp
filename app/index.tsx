@@ -1,6 +1,7 @@
+import React, { useEffect } from "react";
 import { 
+  Alert,
   Image, 
-  Pressable, 
   SafeAreaView, 
   StyleSheet, 
   Text, 
@@ -10,11 +11,63 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { z } from "zod";
 
 import { Colors } from "@/constants/Colors";
 import logo from '../assets/images/logo.png';
+import api from "@/lib/axios";
+
+const loginSchema = z.object({
+  email: z.string().email("E-mail é obrigatório"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+});
+
+export type LoginSchema = z.infer<typeof loginSchema>;
 
 export default function Index() {
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        router.replace('/(dashboard)/userlist/page');
+      }
+    };
+    checkToken();
+  }, []);
+
+  const onSubmit = async (data: LoginSchema) => {
+    try {
+      if (!data.email || !data.password) {
+        Alert.alert('Por favor, forneça o e-mail e a senha.');
+        return;
+      }
+
+      const response = await api.post('auth/login', data, { withCredentials: true });
+
+      if (response.data.accessToken) {
+        await AsyncStorage.setItem('authToken', response.data.accessToken);
+        Alert.alert(`Usuário Logado: ${data.email}, Seja Bem vindo!`);
+        router.push("/(dashboard)/userlist/page");
+      } else {
+        Alert.alert('Token não encontrado na resposta.');
+      }
+    } catch (error) {
+      Alert.alert('Login falhou. Verifique suas credenciais.');
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -23,56 +76,57 @@ export default function Index() {
         </View>
 
         <Text style={styles.title}>Acesso Usuário</Text>
-        <Text style={styles.subtitle}>
-          Entre e salve o dia.
-        </Text>
+        <Text style={styles.subtitle}>Entre e salve o dia.</Text>
 
         <View style={styles.form}>
           <View>
             <Text style={styles.label}>Email</Text>
-
             <TextInput 
               placeholder='Digite seu email...' 
               placeholderTextColor={Colors.zinc_600}  
-              style={styles.input} 
+              style={styles.input}
+              onChangeText={(text) => setValue('email', text)}
+              value={watch("email")}
             />
+            {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
           </View>
 
           <View>
             <Text style={styles.label}>Password</Text>
-
             <TextInput 
               placeholder='Digite sua senha...' 
               placeholderTextColor={Colors.zinc_600} 
               style={styles.input} 
+              secureTextEntry
+              onChangeText={(text) => setValue('password', text)}
+              value={watch("password")}
             />
+            {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
           </View>
 
           <TouchableOpacity 
             activeOpacity={0.5} 
-            onPress={() => router.push('/(dashboard)/userlist/page')} 
+            onPress={handleSubmit(onSubmit)} 
             style={styles.button}
           >
             <Text style={styles.buttonText}>Acessar</Text>
           </TouchableOpacity>
 
-          <Pressable 
+          <TouchableOpacity 
             onPress={() => router.push('/(auth)/registeruser/page')} 
             style={styles.link}
           >
             <Ionicons name="arrow-forward-sharp" size={16} color="red" />
             <Text style={styles.textGhost}>Não Tenho Cadastro</Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable 
+          <TouchableOpacity 
             onPress={() => router.push('/(auth)/signinnong/page')} 
             style={styles.link}
           >
             <Ionicons name="arrow-forward-sharp" size={16} color="red" />
-            <Text style={styles.textGhost}>
-              É ONG? Entre por aqui.
-            </Text>
-          </Pressable>
+            <Text style={styles.textGhost}>É ONG? Entre por aqui.</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -150,5 +204,10 @@ const styles = StyleSheet.create({
     marginTop: 16,
     flexDirection: "row",
     alignItems: "center",
+  },
+  error: {
+    color: "red",
+    fontSize: 12,
+    marginTop: 4,
   }
 });
