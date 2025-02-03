@@ -14,8 +14,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import axios from 'axios';
 
 import logo from '../../../assets/images/logo.png';
+import api from "@/lib/axios";
 import { Colors } from "@/constants/Colors";
 
 const registerSchema = z.object({
@@ -33,7 +35,37 @@ export default function RegisterUser() {
   });
 
   const onSubmit = async (data: RegisterSchema) => {
-    console.log("Dados enviados:", data);
+    try {
+
+      const response = await api.post('users', {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
+      });
+
+      if(response.status === 200 || response.status === 201){
+        Alert.alert('Usuário criado com sucesso')
+        router.push("/");
+      }
+    } catch (error: any) {
+      Alert.alert('Error:' +(error));
+
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          Alert.alert(
+            'O registro falhou: ' + (error.response.data.message || 
+            'Por favor, verifique suas informações e tente novamente.')
+          );
+        } else if (error.request) {
+          Alert.alert('Falha no registro: Nenhuma resposta do servidor.');
+        } else {
+          Alert.alert('O registro falhou: ' + error.message);
+        }
+      } else {
+        Alert.alert('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+      }
+    }
   };
 
   return (
