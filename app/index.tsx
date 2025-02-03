@@ -17,9 +17,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { z } from "zod";
 
+import api from "@/lib/axios";
 import { Colors } from "@/constants/Colors";
 import logo from '../assets/images/logo.png';
-import api from "@/lib/axios";
 
 const loginSchema = z.object({
   email: z.string().email("E-mail é obrigatório"),
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   error: {
-    color: "red",
+    color: Colors.red_600,
     fontSize: 12,
     marginTop: 4,
   }

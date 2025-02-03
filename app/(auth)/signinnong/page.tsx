@@ -1,4 +1,5 @@
 import { 
+  Alert,
   Image, 
   Pressable, 
   SafeAreaView, 
@@ -8,13 +9,66 @@ import {
   TouchableOpacity, 
   View 
 } from "react-native";
+import { useEffect } from "react";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { z } from "zod";
 
+import api from "@/lib/axios";
 import logo from '../../../assets/images/logo.png';
 import { Colors } from "@/constants/Colors";
 
+const loginOngSchema = z.object({
+  email: z.string().email("E-mail é obrigatório"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+});
+
+export type LoginOngSchema = z.infer<typeof loginOngSchema>;
+
 export default function SignInOng() {
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<LoginOngSchema>({
+    resolver: zodResolver(loginOngSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        router.replace('/(dashboard)/userlist/page');
+      }
+    };
+    checkToken();
+  }, []);
+
+  const onSubmit = async (data: LoginOngSchema) => {
+    try {
+      if (!data.email || !data.password) {
+        Alert.alert('Por favor, forneça o e-mail e a senha.');
+        return;
+      }
+
+      const response = await api.post('auth-ong/login', data, { withCredentials: true });
+
+      if (response.data.accessToken) {
+        await AsyncStorage.setItem('authToken', response.data.accessToken);
+        Alert.alert(`Usuário Logado: ${data.email}, Seja Bem vindo!`);
+        router.push("/(dashboard)/userlist/page");
+      } else {
+        Alert.alert('Token não encontrado na resposta.');
+      }
+    } catch (error) {
+      Alert.alert('Login falhou. Verifique suas credenciais.');
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -35,7 +89,10 @@ export default function SignInOng() {
               placeholder='Digite seu email...' 
               placeholderTextColor={Colors.zinc_600} 
               style={styles.input} 
+              onChangeText={(text) => setValue('email', text)}
+              value={watch("email")}
             />
+            {errors.email && <Text style={styles.error}>{errors.email.message}</Text>}
           </View>
 
           <View>
@@ -45,10 +102,17 @@ export default function SignInOng() {
               placeholder='Digite sua senha...' 
               placeholderTextColor={Colors.zinc_600} 
               style={styles.input} 
+              onChangeText={(text) => setValue('password', text)}
+              value={watch("password")}
             />
+            {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
           </View>
 
-          <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+          <TouchableOpacity 
+            activeOpacity={0.5} 
+            onPress={handleSubmit(onSubmit)} 
+            style={styles.button}
+          >
             <Text style={styles.buttonText}>Acesso</Text>
           </TouchableOpacity>
 
@@ -148,5 +212,10 @@ const styles = StyleSheet.create({
     marginTop: 16,
     flexDirection: "row",
     alignItems: "center",
+  },
+  error: {
+    color: Colors.red_600,
+    fontSize: 12,
+    marginTop: 4,
   }
 })
