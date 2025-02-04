@@ -11,6 +11,7 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)/registerong/page" options={{headerShown: false}}/>
 
         <Stack.Screen name="(dashboard)/userlist/page" options={{headerShown: false}}/>
+        <Stack.Screen name="(dashboard)/onglist/page" options={{headerShown: false}}/>
         <Stack.Screen name="(dashboard)/details/page" options={{headerShown: false}}/>
       </Stack>
 

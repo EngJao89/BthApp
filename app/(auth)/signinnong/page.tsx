@@ -42,7 +42,7 @@ export default function SignInOng() {
     const checkToken = async () => {
       const token = await AsyncStorage.getItem('authOngToken');
       if (token) {
-        router.replace('/(dashboard)/userlist/page');
+        router.replace('/(dashboard)/onglist/page');
       }
     };
     checkToken();
@@ -60,7 +60,7 @@ export default function SignInOng() {
       if (response.data.accessToken) {
         await AsyncStorage.setItem('authOngToken', response.data.accessToken);
         Alert.alert(`Usuário Logado: ${data.email}, Seja Bem vindo!`);
-        router.push("/(dashboard)/userlist/page");
+        router.push("/(dashboard)/onglist/page");
       } else {
         Alert.alert('Token não encontrado na resposta.');
       }
@@ -102,6 +102,7 @@ export default function SignInOng() {
               placeholder='Digite sua senha...' 
               placeholderTextColor={Colors.zinc_600} 
               style={styles.input} 
+              secureTextEntry 
               onChangeText={(text) => setValue('password', text)}
               value={watch("password")}
             />
