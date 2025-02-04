@@ -1,15 +1,64 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { 
+  Alert,
+  Image, 
+  SafeAreaView, 
+  ScrollView, 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View 
+} from "react-native";
+import { useEffect, useState } from "react";
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import logo from '../../../assets/images/logo.png';
 import { Colors } from "@/constants/Colors";
 import { Card } from "@/component/Card";
 
+interface UserData {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  accessToken: string;
+}
+
 export default function UserList() {
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  async function handleLogout() {
+    try {
+      await AsyncStorage.removeItem('authToken');
+
+      setUserData(null);
+
+      Alert.alert('Você saiu! Até breve...');
+      router.replace("/");
+    } catch (error) {
+      Alert.alert("Erro ao fazer logout:");
+    }
+  }
+
+  useEffect(() => {
+    async function fetchUserData() {
+      const storedData = await AsyncStorage.getItem('authToken');
+      if (storedData) {
+        setUserData(JSON.parse(storedData));
+      }
+    }
+    fetchUserData();
+  }, []);
+
   return(
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
         <View style={styles.header}>
           <Image source={logo} style={styles.logo}/>
+          <TouchableOpacity onPress={() => handleLogout()} style={styles.logout}>
+            <AntDesign name="logout" size={24} color="red" />
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.title}>Bem Vindo!</Text>
@@ -41,6 +90,11 @@ const styles = StyleSheet.create({
   },
   logo: {
     margin: 2,
+  },
+  logout: {
+    marginTop: 16,
+    flexDirection: "row",
+    alignItems: "center",
   },
   backButton: {
     backgroundColor: Colors.zinc_200,
