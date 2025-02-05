@@ -16,8 +16,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import axios from 'axios';
 
-import logo from '../../../assets/images/logo.png';
 import api from "@/lib/axios";
+import logo from '../../../assets/images/logo.png';
 import { Colors } from "@/constants/Colors";
 
 const registerSchema = z.object({
