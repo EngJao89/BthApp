@@ -1,4 +1,5 @@
 import { 
+  Alert,
   Image, 
   Pressable, 
   SafeAreaView, 
@@ -10,11 +11,67 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import axios from 'axios';
 
+import api from "@/lib/axios";
 import { Colors } from "@/constants/Colors";
 import logo from '../../../assets/images/logo.png';
 
+const registerSchema = z.object({
+  name: z.string().min(3, "Nome de usuário é obrigatório"),
+  email: z.string().email("E-mail é obrigatório"),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+  phone: z.string().min(13, "O telefone deve ter pelo menos 13 caracteres"),
+  city: z.string().min(4, "Cidade deve ter pelo menos 4 caracteres"),
+  uf: z.string().min(2, "Estados deve ter pelo menos 2 caracteres"),
+});
+
+export type RegisterSchema = z.infer<typeof registerSchema>;
+
 export default function RegisterOng() {
+  const { control, handleSubmit, formState: { errors } } = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const onSubmit = async (data: RegisterSchema) => {
+    try {
+
+      const response = await api.post('ongs', {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
+        city: data.city,
+        uf: data.uf,
+      });
+
+      if(response.status === 200 || response.status === 201){
+        Alert.alert('Usuário criado com sucesso')
+        router.push("(auth)/signinnong/page");
+      }
+    } catch (error: any) {
+      Alert.alert('Error:' +(error));
+
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          Alert.alert(
+            'O registro falhou: ' + (error.response.data.message || 
+            'Por favor, verifique suas informações e tente novamente.')
+          );
+        } else if (error.request) {
+          Alert.alert('Falha no registro: Nenhuma resposta do servidor.');
+        } else {
+          Alert.alert('O registro falhou: ' + error.message);
+        }
+      } else {
+        Alert.alert('Ocorreu um erro inesperado. Tente novamente mais tarde.');
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -35,66 +92,121 @@ export default function RegisterOng() {
           <View>
             <Text style={styles.label}>Nome</Text>
 
-            <TextInput 
-              placeholder='Digite seu nome...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Controller 
+              control={control} 
+              name="name" 
+              render={({ field: { onChange, value } }) => (
+                <TextInput 
+                  placeholder='Digite seu nome...' 
+                  placeholderTextColor={Colors.zinc_600} 
+                  style={styles.input} 
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.name?.message && <Text style={styles.error}>{String(errors.name.message)}</Text>}
           </View>
 
           <View>
             <Text style={styles.label}>Email</Text>
 
-            <TextInput 
-              placeholder='Digite seu email...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Controller 
+              control={control} 
+              name="email" 
+              render={({ field: { onChange, value } }) => (
+                <TextInput 
+                  placeholder='Digite seu email...' 
+                  placeholderTextColor={Colors.zinc_600} 
+                  style={styles.input} 
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.email?.message && <Text style={styles.error}>{String(errors.email.message)}</Text>}
           </View>
 
           <View>
             <Text style={styles.label}>Password</Text>
 
-            <TextInput 
-              placeholder='Digite sua senha...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Controller 
+              control={control} 
+              name="password" 
+              render={({ field: { onChange, value } }) => (
+                <TextInput 
+                  placeholder='Digite sua senha...' 
+                  placeholderTextColor={Colors.zinc_600} 
+                  secureTextEntry
+                  style={styles.input} 
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.password?.message && <Text style={styles.error}>{String(errors.password.message)}</Text>}
           </View>
 
           <View>
             <Text style={styles.label}>Telefone</Text>
 
-            <TextInput 
-              placeholder='Digite seu telefone...' 
-              placeholderTextColor={Colors.zinc_600} 
-              style={styles.input} 
+            <Controller 
+              control={control} 
+              name="phone" 
+              render={({ field: { onChange, value } }) => (
+                <TextInput 
+                  placeholder='Digite seu telefone...' 
+                  placeholderTextColor={Colors.zinc_600} 
+                  style={styles.input} 
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
+            {errors.phone?.message && <Text style={styles.error}>{String(errors.phone.message)}</Text>}
           </View>
 
           <View style={styles.location}>
             <View>
               <Text style={styles.label}>Cidade</Text>
 
-              <TextInput 
-                placeholder='Digite sua cidade...' 
-                placeholderTextColor={Colors.zinc_600} 
-                style={styles.city} 
+              <Controller 
+                control={control} 
+                name="city" 
+                render={({ field: { onChange, value } }) => (
+                  <TextInput 
+                    placeholder='Digite sua cidade...' 
+                    placeholderTextColor={Colors.zinc_600} 
+                    style={styles.city}
+                    value={value}
+                    onChangeText={onChange} 
+                  />
+                )}
               />
+              {errors.city?.message && <Text style={styles.error}>{String(errors.city.message)}</Text>}
             </View>
 
             <View>
               <Text style={styles.ufTitle}>UF</Text>
 
-              <TextInput 
-                placeholder='UF' 
-                placeholderTextColor={Colors.zinc_600} 
-                style={styles.uf} 
+              <Controller 
+                control={control} 
+                name="uf" 
+                render={({ field: { onChange, value } }) => (
+                  <TextInput 
+                    placeholder='UF' 
+                    placeholderTextColor={Colors.zinc_600} 
+                    style={styles.uf}
+                    value={value}
+                    onChangeText={onChange}  
+                  />
+                )}
               />
+              {errors.uf?.message && <Text style={styles.error}>{String(errors.uf.message)}</Text>}
             </View>
           </View>
 
-          <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+          <TouchableOpacity activeOpacity={0.5} style={styles.button} onPress={handleSubmit(onSubmit)}>
             <Text style={styles.buttonText}>Cadastro</Text>
           </TouchableOpacity>
         </View>
@@ -202,5 +314,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: Colors.zinc_100,
     fontWeight: "bold",
+  },
+  error: { 
+    color: Colors.red_600, 
+    fontSize: 14, 
+    marginTop: 5 
   },
 })
