@@ -43,6 +43,25 @@ export default function Details() {
             <Text style={styles.title}>Valor:</Text>
             <Text style={styles.subTitle}>R$ 120,00</Text>
           </View>
+
+          <View style={styles.divider}></View>
+
+          <View style={styles.menuHeader}>
+            <View>
+              <TouchableOpacity style={styles.iconButton}>
+                <Ionicons name="reader" size={24} color={Colors.red_600}/>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.buttonFooter}>
+              <TouchableOpacity style={styles.iconButton}>
+                <Ionicons name="create" size={24} color={Colors.red_600}/>
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.iconButton}>
+                <Ionicons name="trash" size={24} color={Colors.red_600}/>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
 
         <View style={styles.card}>
@@ -86,6 +105,10 @@ const styles = StyleSheet.create({
     padding: 8,
     marginBottom: 8,
   },
+  buttonFooter:{
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   card: {
     backgroundColor: Colors.zinc_100,
     width: 370,
@@ -102,6 +125,24 @@ const styles = StyleSheet.create({
   description: {
     marginTop: 8,
     marginBottom: 8,
+  },
+  divider: {
+    backgroundColor: Colors.zinc_200,
+    height: 1,
+    width: '100%',
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  iconButton: {
+    alignSelf: "flex-start",
+    padding: 4,
+    marginLeft: 4,
+    marginRight: 4,
+  },
+  menuHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 8,
   },
   value: {
     marginTop: 8,
