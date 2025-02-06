@@ -49,14 +49,17 @@ export default function Details() {
           <View style={styles.menuHeader}>
             <View>
               <TouchableOpacity 
-                onPress={() => router.push("/(dashboard)/incidents/page")} 
+                onPress={() => router.push("/(incidents)/new/page")} 
                 style={styles.iconButton}
               >
                 <Ionicons name="reader" size={24} color={Colors.red_600}/>
               </TouchableOpacity>
             </View>
             <View style={styles.buttonFooter}>
-              <TouchableOpacity style={styles.iconButton}>
+              <TouchableOpacity 
+                onPress={() => router.push("/(incidents)/edit/page")} 
+                style={styles.iconButton}
+              >
                 <Ionicons name="create" size={24} color={Colors.red_600}/>
               </TouchableOpacity>
 
