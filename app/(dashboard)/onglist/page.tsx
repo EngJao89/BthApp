@@ -84,9 +84,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.zinc_200,
+    marginLeft: 20,
   },
   header: {
-    padding: 24,
+    paddingTop: 24,
+    paddingBottom: 24,
+    paddingRight: 24,
+    paddingLeft: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
