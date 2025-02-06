@@ -48,7 +48,10 @@ export default function Details() {
 
           <View style={styles.menuHeader}>
             <View>
-              <TouchableOpacity style={styles.iconButton}>
+              <TouchableOpacity 
+                onPress={() => router.push("/(dashboard)/incidents/page")} 
+                style={styles.iconButton}
+              >
                 <Ionicons name="reader" size={24} color={Colors.red_600}/>
               </TouchableOpacity>
             </View>
@@ -90,6 +93,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.zinc_200,
+    marginLeft: 20,
   },
   header: {
     padding: 24,
