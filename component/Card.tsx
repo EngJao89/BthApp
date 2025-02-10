@@ -4,13 +4,24 @@ import { Colors } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
 
-export function Card() {
+interface IncidentData {
+  id: string;
+  title: string;
+  description: string;
+  value: string;
+}
+
+interface CardProps {
+  incident: IncidentData;
+}
+
+export function Card({ incident }: CardProps) {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View>
           <Text style={styles.title}>Caso:</Text>
-          <Text style={styles.subTitle}>Cadelinha Atropelada</Text>
+          <Text style={styles.subTitle}>{incident.title}</Text>
         </View>
 
         <View style={styles.ong}>
@@ -21,7 +32,7 @@ export function Card() {
 
       <View style={styles.spacing}>
         <Text style={styles.title}>Valor:</Text>
-        <Text style={styles.subTitle}>R$ 120,00</Text>
+        <Text style={styles.subTitle}>R$ {incident.value}</Text>
       </View>
 
       <View style={styles.divider}></View>
