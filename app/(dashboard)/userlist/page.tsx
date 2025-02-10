@@ -8,7 +8,7 @@ import {
   TouchableOpacity, 
   View 
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import logo from '../../../assets/images/logo.png';
 import { Colors } from "@/constants/Colors";
 import { Card } from "@/component/Card";
+import api from "@/lib/axios";
 
 interface UserData {
   id: string;
@@ -25,8 +26,16 @@ interface UserData {
   accessToken: string;
 }
 
+interface IncidentData {
+  id: string;
+  title: string;
+  description: string;
+  value: string;
+}
+
 export default function UserList() {
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [incidents, setIncidents] = useState<IncidentData[]>([]);
 
   async function handleLogout() {
     try {
@@ -41,6 +50,25 @@ export default function UserList() {
     }
   }
 
+  const fetchIncident = useCallback(async () => {
+    try {
+      const response = await api.get<IncidentData[]>('incidents');
+      setIncidents(response.data);
+    }catch (error: any) {
+      if (error) {
+        if (error.response) {
+          Alert.alert(`Error fetching data: ${error.message}`);
+        } else if (error.request) {
+          Alert.alert('Error fetching data. No response from server.');
+        } else {
+          Alert.alert(`Error fetching data: ${error.message}`);
+        }
+      } else {
+        Alert.alert('Unexpected error:', error);
+      }
+    }
+  }, [])
+
   useEffect(() => {
     async function fetchUserData() {
       const storedData = await AsyncStorage.getItem('authToken');
@@ -48,6 +76,7 @@ export default function UserList() {
         setUserData(JSON.parse(storedData));
       }
     }
+    fetchIncident();
     fetchUserData();
   }, []);
 
@@ -67,11 +96,9 @@ export default function UserList() {
         </Text>
 
         <ScrollView>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {incidents.map((incident) => (
+            <Card key={incident.id} incident={incident}/>
+          ))}
         </ScrollView>
       </View>
     </SafeAreaView>
