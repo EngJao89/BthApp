@@ -1,11 +1,49 @@
-import { Image, Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { 
+  Alert,
+  Image, 
+  Pressable, 
+  SafeAreaView, 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View 
+} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { router } from "expo-router";
+import { useLocalSearchParams, router } from "expo-router";
 
+import api from "@/lib/axios";
 import logo from '../../../assets/images/logo.png';
 import { Colors } from "@/constants/Colors";
 
+interface IncidentData {
+  id: string;
+  title: string;
+  description: string;
+  email: string;
+  whatsapp: string;
+  value: string;
+}
+
 export default function Details() {
+  const { id } = useLocalSearchParams();
+  const [incidentData, setIncidentData] = useState<IncidentData | null>(null);
+
+  useEffect(() => {
+    const fetchIncident = async () => {
+      if (!id) return;
+
+      try {
+        const response = await api.get(`incidents/${id}`);
+        setIncidentData(response.data);
+      } catch (error) {
+        Alert.alert("Erro ao carregar os dados do incidente");
+      }
+    };
+
+    fetchIncident();
+  }, [id]);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -21,7 +59,7 @@ export default function Details() {
           <View style={styles.cardHeader}>
             <View>
               <Text style={styles.title}>Caso:</Text>
-              <Text style={styles.subTitle}>Cadelinha Atropelada</Text>
+              <Text style={styles.subTitle}>{incidentData ? incidentData.title : ''}</Text>
             </View>
 
             <View style={styles.ong}>
@@ -33,15 +71,13 @@ export default function Details() {
           <View style={styles.description}>
             <Text style={styles.title}>Descrição:</Text>
             <Text style={styles.subTitle}>
-              A cadelinha Jolie foi atropelada por um carro 
-              no bairro Santana e teve que passar por uma 
-              cirurgia às pressas.
+              {incidentData ? incidentData.description : ''}
             </Text>
           </View>
 
           <View style={styles.value}>
             <Text style={styles.title}>Valor:</Text>
-            <Text style={styles.subTitle}>R$ 120,00</Text>
+            <Text style={styles.subTitle}>R$ {incidentData ? incidentData.value : ''}</Text>
           </View>
 
           <View style={styles.divider}></View>

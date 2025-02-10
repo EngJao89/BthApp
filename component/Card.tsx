@@ -39,7 +39,7 @@ export function Card({ incident }: CardProps) {
 
       <View>
         <Pressable 
-          onPress={() => router.push('/(dashboard)/details/page')} 
+          onPress={() => router.push(`/(dashboard)/details/${incident.id}`)}
           style={styles.link}
         >
           <Text style={styles.textGhost}>
