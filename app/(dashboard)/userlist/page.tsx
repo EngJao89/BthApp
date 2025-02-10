@@ -30,6 +30,7 @@ interface IncidentData {
   id: string;
   title: string;
   description: string;
+  ong: string;
   value: string;
 }
 

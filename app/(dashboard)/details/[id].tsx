@@ -20,6 +20,7 @@ interface IncidentData {
   id: string;
   title: string;
   description: string;
+  ong: string;
   email: string;
   whatsapp: string;
   value: string;
@@ -64,7 +65,7 @@ export default function Details() {
 
             <View style={styles.ong}>
               <Text style={styles.title}>ONG:</Text>
-              <Text style={styles.subTitle}>APAD</Text>
+              <Text style={styles.subTitle}>{incidentData ? incidentData.ong : ''}</Text>
             </View>
           </View>
 

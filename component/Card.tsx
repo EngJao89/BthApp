@@ -8,6 +8,7 @@ interface IncidentData {
   id: string;
   title: string;
   description: string;
+  ong: string;
   value: string;
 }
 
@@ -26,7 +27,7 @@ export function Card({ incident }: CardProps) {
 
         <View style={styles.ong}>
           <Text style={styles.title}>ONG:</Text>
-          <Text style={styles.subTitle}>APAD</Text>
+          <Text style={styles.subTitle}>{incident.ong}</Text>
         </View>
       </View>
 
