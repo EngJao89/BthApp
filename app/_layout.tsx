@@ -12,7 +12,7 @@ export default function RootLayout() {
 
         <Stack.Screen name="(dashboard)/userlist/page" options={{headerShown: false}}/>
         <Stack.Screen name="(dashboard)/onglist/page" options={{headerShown: false}}/>
-        <Stack.Screen name="(dashboard)/details/page" options={{headerShown: false}}/>
+        <Stack.Screen name="(dashboard)/details/[id]" options={{headerShown: false}}/>
 
         <Stack.Screen name="(incidents)/new/page" options={{headerShown: false}}/>
         <Stack.Screen name="(incidents)/edit/page" options={{headerShown: false}}/>
