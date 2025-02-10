@@ -45,6 +45,14 @@ export default function Details() {
     fetchIncident();
   }, [id]);
 
+  const handleCopyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      Alert.alert("Copiado para a área de transferência!");
+    }).catch(() => {
+      Alert.alert("Erro ao copiar para a área de transferência");
+    });
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -115,11 +123,19 @@ export default function Details() {
           <Text style={styles.subTitle}>Entre em contato:</Text>
 
           <View style={styles.footer}>
-            <TouchableOpacity activeOpacity={0.5} style={styles.button}>
+            <TouchableOpacity 
+              activeOpacity={0.5} 
+              style={styles.button}
+              onPress={() => handleCopyToClipboard}
+            >
               <Text style={styles.buttonText}>Email</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.5} style={styles.buttonRight}>
+            <TouchableOpacity 
+              activeOpacity={0.5} 
+              style={styles.buttonRight}
+              onPress={() => handleCopyToClipboard}
+            >
               <Text style={styles.buttonText}>Whatsapp</Text>
             </TouchableOpacity>
           </View>

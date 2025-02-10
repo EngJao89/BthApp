@@ -56,6 +56,33 @@ export default function Incidents () {
           </View>
 
           <View>
+            <Text style={styles.label}>Ong</Text>
+            <TextInput
+              placeholder="Ong responsável"
+              placeholderTextColor={Colors.zinc_600}
+              style={styles.input}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              placeholder="Email para contato"
+              placeholderTextColor={Colors.zinc_600}
+              style={styles.input}
+            />
+          </View>
+
+          <View>
+            <Text style={styles.label}>WhatsApp</Text>
+            <TextInput
+              placeholder="Whatsapp para contato"
+              placeholderTextColor={Colors.zinc_600}
+              style={styles.input}
+            />
+          </View>
+
+          <View>
             <Text style={styles.label}>Valor</Text>
             <TextInput
               placeholder="Valor em reais"
