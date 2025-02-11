@@ -55,6 +55,16 @@ export default function Details() {
     });
   };
 
+  const handleDelete = async () => {
+    try {
+      await api.delete(`incidents/${incidentId}`);
+      Alert.alert("Incidente excluído com sucesso!");
+      router.push("/(dashboard)/userlist/page");
+    } catch (error) {
+      Alert.alert("Erro ao excluir incidente.");
+    }
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
       <View style={styles.container}>
@@ -110,7 +120,7 @@ export default function Details() {
                 <Ionicons name="create" size={24} color={Colors.red_600}/>
               </TouchableOpacity>
 
-              <TouchableOpacity style={styles.iconButton}>
+              <TouchableOpacity onPress={handleDelete} style={styles.iconButton}>
                 <Ionicons name="trash" size={24} color={Colors.red_600}/>
               </TouchableOpacity>
             </View>
