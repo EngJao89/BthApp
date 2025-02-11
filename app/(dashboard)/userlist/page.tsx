@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import logo from '../../../assets/images/logo.png';
@@ -55,20 +55,10 @@ export default function UserList() {
     try {
       const response = await api.get<IncidentData[]>('incidents');
       setIncidents(response.data);
-    }catch (error: any) {
-      if (error) {
-        if (error.response) {
-          Alert.alert(`Error fetching data: ${error.message}`);
-        } else if (error.request) {
-          Alert.alert('Error fetching data. No response from server.');
-        } else {
-          Alert.alert(`Error fetching data: ${error.message}`);
-        }
-      } else {
-        Alert.alert('Unexpected error:', error);
-      }
+    } catch (error: any) {
+      Alert.alert("Erro ao carregar os casos.");
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -77,9 +67,15 @@ export default function UserList() {
         setUserData(JSON.parse(storedData));
       }
     }
-    fetchIncident();
     fetchUserData();
+    fetchIncident();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchIncident();
+    }, [])
+  );
 
   return(
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>

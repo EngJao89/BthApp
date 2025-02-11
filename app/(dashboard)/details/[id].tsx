@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { 
   Alert,
   Image, 
@@ -10,7 +10,7 @@ import {
   View 
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useLocalSearchParams, router } from "expo-router";
+import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
 
 import api from "@/lib/axios";
 import logo from '../../../assets/images/logo.png';
@@ -31,20 +31,21 @@ export default function Details() {
   const incidentId = Array.isArray(id) ? id[0] : id;
   const [incidentData, setIncidentData] = useState<IncidentData | null>(null);
 
-  useEffect(() => {
-    const fetchIncident = async () => {
-      if (!id) return;
-
-      try {
-        const response = await api.get(`incidents/${id}`);
-        setIncidentData(response.data);
-      } catch (error) {
-        Alert.alert("Erro ao carregar os dados do incidente");
-      }
-    };
-
-    fetchIncident();
-  }, [id]);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchIncident = async () => {
+        if (!incidentId) return;
+        try {
+          const response = await api.get(`incidents/${incidentId}`);
+          setIncidentData(response.data);
+        } catch (error) {
+          Alert.alert("Erro ao carregar os dados do incidente");
+        }
+      };
+  
+      fetchIncident();
+    }, [incidentId])
+  );
 
   const handleCopyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text).then(() => {
