@@ -28,6 +28,7 @@ interface IncidentData {
 
 export default function Details() {
   const { id } = useLocalSearchParams();
+  const incidentId = Array.isArray(id) ? id[0] : id;
   const [incidentData, setIncidentData] = useState<IncidentData | null>(null);
 
   useEffect(() => {
@@ -102,7 +103,7 @@ export default function Details() {
             </View>
             <View style={styles.buttonFooter}>
               <TouchableOpacity 
-                onPress={() => router.push("/(incidents)/edit/page")} 
+                onPress={() => router.push(`/(incidents)/edit/${incidentId}`)} 
                 style={styles.iconButton}
               >
                 <Ionicons name="create" size={24} color={Colors.red_600}/>

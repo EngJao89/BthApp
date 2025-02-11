@@ -15,7 +15,7 @@ export default function RootLayout() {
         <Stack.Screen name="(dashboard)/details/[id]" options={{headerShown: false}}/>
 
         <Stack.Screen name="(incidents)/new/page" options={{headerShown: false}}/>
-        <Stack.Screen name="(incidents)/edit/page" options={{headerShown: false}}/>
+        <Stack.Screen name="(incidents)/edit/[id]" options={{headerShown: false}}/>
       </Stack>
 
       <StatusBar style="dark" />
