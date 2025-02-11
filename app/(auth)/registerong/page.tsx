@@ -50,7 +50,7 @@ export default function RegisterOng() {
 
       if(response.status === 200 || response.status === 201){
         Alert.alert('Usuário criado com sucesso')
-        router.push("(auth)/signinnong/page");
+        router.push("/(auth)/signinnong/page");
       }
     } catch (error: any) {
       Alert.alert('Error:' +(error));
