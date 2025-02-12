@@ -1,5 +1,13 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { 
+  Alert, 
+  Pressable, 
+  StyleSheet, 
+  Text, 
+  TouchableOpacity, 
+  View 
+} from "react-native";
 
+import api from "@/lib/axios";
 import { Colors } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { router } from "expo-router";
@@ -17,6 +25,16 @@ interface CardProps {
 }
 
 export function Card({ incident }: CardProps) {
+  const handleDelete = async () => {
+    try {
+      await api.delete(`incidents/${incident.id}`);
+      Alert.alert("Incidente excluído com sucesso!");
+      router.push("/(dashboard)/userlist/page");
+    } catch (error) {
+      Alert.alert("Erro ao excluir incidente.");
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -38,7 +56,7 @@ export function Card({ incident }: CardProps) {
 
       <View style={styles.divider}></View>
 
-      <View>
+      <View style={styles.footer}>
         <Pressable 
           onPress={() => router.push(`/(dashboard)/details/${incident.id}`)}
           style={styles.link}
@@ -48,6 +66,10 @@ export function Card({ incident }: CardProps) {
           </Text>
           <Ionicons name="arrow-forward-sharp" size={16} color="red" />
         </Pressable>
+
+        <TouchableOpacity onPress={handleDelete} style={styles.iconButton}>
+          <Ionicons name="trash" size={18} color={Colors.red_600}/>
+        </TouchableOpacity>
       </View>
     </View>
   )
@@ -98,8 +120,18 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   link: {
-    marginTop: 16,
     flexDirection: "row",
     alignItems: "center",
-  }
+  },
+  footer: {
+    marginTop: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  iconButton: {
+    alignSelf: "flex-start",
+    padding: 4,
+    marginLeft: 4,
+    marginRight: 4,
+  },
 })
