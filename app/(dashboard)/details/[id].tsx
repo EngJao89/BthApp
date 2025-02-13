@@ -112,6 +112,7 @@ export default function Details() {
                 <Ionicons name="reader" size={24} color={Colors.red_600}/>
               </TouchableOpacity>
             </View>
+
             <View style={styles.buttonFooter}>
               <TouchableOpacity 
                 onPress={() => router.push(`/(incidents)/edit/${incidentId}`)} 
