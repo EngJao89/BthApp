@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { router, useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -38,7 +39,7 @@ interface IncidentData {
 
 export default function OngList() {
   const [ongData, setOngData] = useState<OngData | null>(null);
-    const [incidents, setIncidents] = useState<IncidentData[]>([]);
+  const [incidents, setIncidents] = useState<IncidentData[]>([]);
 
   async function handleLogout() {
     try {
@@ -84,9 +85,22 @@ export default function OngList() {
       <View style={styles.container}>
         <View style={styles.header}>
           <Image source={logo} style={styles.logo}/>
-          <TouchableOpacity onPress={() => handleLogout()} style={styles.logout}>
-            <AntDesign name="logout" size={24} color="red" />
-          </TouchableOpacity>
+
+          <View style={styles.optionButtons}>
+            <TouchableOpacity 
+              onPress={() => router.push("/(incidents)/new/page")} 
+              style={styles.iconButton}
+            >
+              <Ionicons name="reader" size={24} color={Colors.red_600}/>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              onPress={() => handleLogout()} 
+              style={styles.logout}
+            >
+              <AntDesign name="logout" size={24} color="red" />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <Text style={styles.title}>Bem Vindo!</Text>
@@ -122,15 +136,18 @@ const styles = StyleSheet.create({
     margin: 2,
   },
   logout: {
-    marginTop: 16,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  backButton: {
-    backgroundColor: Colors.zinc_200,
     alignSelf: "flex-start",
-    padding: 8,
-    marginBottom: 8,
+    marginTop: 16,
+    marginRight: 8,
+  },
+  iconButton: {
+    alignSelf: "flex-start",
+    marginTop: 16,
+    marginRight: 8,
+  },
+  optionButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   title: {
     color: Colors.zinc_950,
