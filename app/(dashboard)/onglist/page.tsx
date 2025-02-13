@@ -8,11 +8,12 @@ import {
   TouchableOpacity, 
   View 
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import api from "@/lib/axios";
 import logo from '../../../assets/images/logo.png';
 import { Colors } from "@/constants/Colors";
 import { Card } from "@/component/Card";
@@ -27,8 +28,17 @@ interface OngData {
   uf: string;
 }
 
+interface IncidentData {
+  id: string;
+  title: string;
+  description: string;
+  ong: string;
+  value: string;
+}
+
 export default function OngList() {
   const [ongData, setOngData] = useState<OngData | null>(null);
+    const [incidents, setIncidents] = useState<IncidentData[]>([]);
 
   async function handleLogout() {
     try {
@@ -43,6 +53,15 @@ export default function OngList() {
     }
   }
 
+  const fetchIncident = useCallback(async () => {
+    try {
+      const response = await api.get<IncidentData[]>('incidents');
+      setIncidents(response.data);
+    } catch (error: any) {
+      Alert.alert("Erro ao carregar os casos.");
+    }
+  }, []);
+
   useEffect(() => {
     async function fetchOngData() {
       const storedData = await AsyncStorage.getItem('authOngToken');
@@ -51,7 +70,14 @@ export default function OngList() {
       }
     }
     fetchOngData();
+    fetchIncident();
   }, []);
+
+    useFocusEffect(
+      useCallback(() => {
+        fetchIncident();
+      }, [])
+    );
 
   return(
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.zinc_200 }}>
@@ -69,11 +95,9 @@ export default function OngList() {
         </Text>
 
         <ScrollView>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          {incidents.map((incident) => (
+            <Card key={incident.id} incident={incident}/>
+          ))}
         </ScrollView>
       </View>
     </SafeAreaView>
